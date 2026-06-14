@@ -1,5 +1,6 @@
 package com.example.tp_spring.blog.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -23,5 +24,6 @@ public class Article {
     private String content;
 
     @OneToMany(mappedBy = "article")
+    @JsonManagedReference
     private List<Comment> comments;
 }
