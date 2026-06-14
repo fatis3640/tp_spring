@@ -1,9 +1,11 @@
 package com.example.tp_spring.blog.service;
 
-import org.springframework.stereotype.Service;
-import java.util.List;
 import com.example.tp_spring.blog.entity.Article;
 import com.example.tp_spring.blog.repository.ArticleRepository;
+import com.example.tp_spring.exception.ResourceNotFoundException;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ArticleService {
@@ -18,7 +20,31 @@ public class ArticleService {
         return repo.findAll();
     }
 
-    public Article save(Article a) {
-        return repo.save(a);
+    public Article getById(Long id) {
+        return repo.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Article not found with id: " + id));
+    }
+
+    public Article save(Article article) {
+        return repo.save(article);
+    }
+
+    public Article update(Long id, Article article) {
+
+        Article existing = getById(id);
+
+        existing.setTitle(article.getTitle());
+        existing.setContent(article.getContent());
+
+        return repo.save(existing);
+    }
+
+    public void delete(Long id) {
+
+        Article article = getById(id);
+
+        repo.delete(article);
     }
 }
