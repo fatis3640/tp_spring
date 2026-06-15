@@ -1,22 +1,41 @@
 package com.example.tp_spring.security.config;
 
-import org.springframework.context.annotation.*;
-        import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 
 @Configuration
 public class SecurityConfig {
+
+    @Bean
+    public InMemoryUserDetailsManager userDetailsService() {
+
+        UserDetails user = User.withDefaultPasswordEncoder()
+                .username("admin")
+                .password("fatis123")
+                .roles("ADMIN")
+                .build();
+
+        return new InMemoryUserDetailsManager(user);
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable())
+                .headers(headers ->
+                        headers.frameOptions(frame -> frame.disable()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/h2-console/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(basic -> {});
+                .formLogin(form -> form.permitAll())
+                .logout(logout -> logout.permitAll());
 
         return http.build();
     }
