@@ -39,4 +39,27 @@ public class ProductWebController {
 
         return "redirect:/products";
     }
+    @GetMapping("/products/new")
+    public String addForm() {
+        return "add-product";
+    }
+    @GetMapping("/products/edit/{id}")
+    public String editProduct(@PathVariable Long id, Model model) {
+
+        Product product = service.getById(id);
+
+        model.addAttribute("product", product);
+
+        return "edit-product";
+    }
+
+    @PostMapping("/products/update/{id}")
+    public String updateProduct(
+            @PathVariable Long id,
+            @ModelAttribute Product product) {
+
+        service.update(id, product);
+
+        return "redirect:/products";
+    }
 }

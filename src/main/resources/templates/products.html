@@ -15,39 +15,10 @@
 
     <h3>Ajouter un produit</h3>
 
-    <form th:action="@{/products/add}" method="post">
-
-        <div class="mb-3">
-            <input type="text"
-                   name="name"
-                   class="form-control"
-                   placeholder="Nom du produit"
-                   required>
-        </div>
-
-        <div class="mb-3">
-            <input type="number"
-                   step="0.01"
-                   name="price"
-                   class="form-control"
-                   placeholder="Prix"
-                   required>
-        </div>
-
-        <div class="mb-3">
-            <input type="text"
-                   name="description"
-                   class="form-control"
-                   placeholder="Description"
-                   required>
-        </div>
-
-        <button type="submit" class="btn btn-primary">
-            Ajouter
-        </button>
-
-    </form>
-
+    <a href="/products/new"
+       class="btn btn-success mb-3">
+        Ajouter Produit
+    </a>
 </div>
 
 <table class="table table-bordered table-striped">
@@ -72,10 +43,17 @@
         <td th:text="${product.description}"></td>
 
         <td>
+
+            <a th:href="@{/products/edit/{id}(id=${product.id})}"
+               class="btn btn-warning btn-sm">
+                Modifier
+            </a>
+
             <a th:href="@{/products/delete/{id}(id=${product.id})}"
                class="btn btn-danger btn-sm">
                 Supprimer
             </a>
+
         </td>
 
     </tr>
