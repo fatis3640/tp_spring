@@ -50,4 +50,13 @@ public class CommentService {
 
         commentRepo.delete(comment);
     }
+    public Comment update(Long id, Comment comment) {
+
+        Comment existing = getById(id);
+
+        existing.setText(comment.getText());
+        existing.setAuthor(comment.getAuthor());
+
+        return commentRepo.save(existing);
+    }
 }
